@@ -64,7 +64,7 @@
 * `SeamlessCoop/RConnectMod.dll`
 * `SeamlessCoop/RConnectMod_settings.ini`
 
-# -----------------------------------------------------------------------------------------------
+---
 
 # Elden Ring: Nightreign — Seamless Co-op Extension
 
