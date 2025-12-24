@@ -66,6 +66,15 @@
 
 ---
 
+## Комментарий автора:
+На самом деле это та ещё залупа.
+Коннект к обычным типам — вообще шляпа.
+Симлес кооп не делает никаких пометок: в рейде парни или в хабе, из-за чего приходится коннектиться на авось.
+Мало того, если вам повезло найти сессию, где парни собираются в катку, эти критины могут просто испугаться и ливнуть из игры — достаточно бесячее событие.
+Таким образом выходит, что такой вид коннекта — шляпа, а коннект к пользователям мода бесполезен по причине отсутствия этих самых пользователей. Чтобы это работало, нужно, чтобы эти пользователи хотя бы были. Мод, кста, ориентирован на пиратов в основном, потому как лицензионщикам такое вообще не нужно.
+
+---
+
 # Elden Ring: Nightreign — Seamless Co-op Extension
 
 ## Description
@@ -131,3 +140,10 @@ Delete the following files from the root folder:
 * `r_nrsc_launcher.exe`
 * `SeamlessCoop/RConnectMod.dll`
 * `SeamlessCoop/RConnectMod_settings.ini`
+
+## Author comment:
+In fact, this is total bullshit.
+Connecting to random players is complete trash.
+Seamless co-op doesn’t make any markings showing whether players are in a raid or in the hub, so you have to connect blindly.
+On top of that, even if you’re lucky enough to find a session where players are getting ready to play, those idiots can just get scared and leave the game — a pretty annoying situation.
+As a result, this type of connection is trash, and connecting to mod users is useless due to the lack of those very users. For this to work, those users would at least need to exist. The mod, by the way, is mainly aimed at pirates, since licensed players don’t need this at all.
