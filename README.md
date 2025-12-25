@@ -72,6 +72,7 @@
 Симлес кооп не делает никаких пометок: в рейде парни или в хабе, из-за чего приходится коннектиться на авось.
 Мало того, если вам повезло найти сессию, где парни собираются в катку, эти критины могут просто испугаться и ливнуть из игры — достаточно бесячее событие.
 Таким образом выходит, что такой вид коннекта — шляпа, а коннект к пользователям мода бесполезен по причине отсутствия этих самых пользователей. Чтобы это работало, нужно, чтобы эти пользователи хотя бы были. Мод, кста, ориентирован на пиратов в основном, потому как лицензионщикам такое вообще не нужно.
+[так же не забудьте скачать SteamworksAPI](https://partner.steamgames.com/downloads/steamworks_sdk_163.zip "прямая ссылка на скачивание SteamworksSDK")
 
 ---
 
@@ -161,3 +162,4 @@ Compilation:
 You should compile exclusively using Microsoft Build Tools x64 Native.
 When using other compilers, the injector fails to inject the DLL into the process, and the DLL itself crashes when interacting with Steam API methods.
 I am not very familiar with C++, so I don't understand the reasons why.
+[also don't forget to download the SteamworksAPI](https://partner.steamgames.com/downloads/steamworks_sdk_163.zip "direct link to download SteamworksSDK")
