@@ -75,6 +75,13 @@
 
 ---
 
+## Компиляция:
+Компилировать следует исключительно через Microsoft Build Tools x64 Native.
+При использовании других компиляторов инжектор не внедряет DLL в процесс, а сама DLL библиотека крашится при взаимодействии с методами Steam API.
+Я слабо знаком с C++ по этому не понимаю причин.
+
+---
+
 # Elden Ring: Nightreign — Seamless Co-op Extension
 
 ## Description
@@ -147,3 +154,10 @@ Connecting to random players is complete trash.
 Seamless co-op doesn’t make any markings showing whether players are in a raid or in the hub, so you have to connect blindly.
 On top of that, even if you’re lucky enough to find a session where players are getting ready to play, those idiots can just get scared and leave the game — a pretty annoying situation.
 As a result, this type of connection is trash, and connecting to mod users is useless due to the lack of those very users. For this to work, those users would at least need to exist. The mod, by the way, is mainly aimed at pirates, since licensed players don’t need this at all.
+
+---
+
+Compilation:
+You should compile exclusively using Microsoft Build Tools x64 Native.
+When using other compilers, the injector fails to inject the DLL into the process, and the DLL itself crashes when interacting with Steam API methods.
+I am not very familiar with C++, so I don't understand the reasons why.
