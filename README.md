@@ -1,5 +1,13 @@
 # Elden Ring: Nightreign — Seamless Co-op Extension
 
+---
+## language
+
+[RU](Описание)
+[EN](Description)
+
+---
+
 ## Описание:
 Расширение предназначено для игры Elden Ring: Nightreign с модом Seamless Co-op. Оно расширяет функциональность Seamless Co-op но не модифицирует его, реализуя подбор случайных игроков для совместной игры.
 
@@ -79,11 +87,9 @@
 Компилировать следует исключительно через Microsoft Build Tools x64 Native.
 При использовании других компиляторов инжектор не внедряет DLL в процесс, а сама DLL библиотека крашится при взаимодействии с методами Steam API.
 Я слабо знаком с C++ по этому не понимаю причин.
-[так же не забудьте скачать SteamworksAPI](https://partner.steamgames.com/downloads/steamworks_sdk_163.zip "прямая ссылка на скачивание SteamworksSDK")
+[так же не забудьте скачать SteamworksSDK](https://partner.steamgames.com/downloads/steamworks_sdk_163.zip "прямая ссылка на скачивание SteamworksSDK")
 
 ---
-
-# Elden Ring: Nightreign — Seamless Co-op Extension
 
 ## Description
 This extension is designed for **Elden Ring: Nightreign** using the **Seamless Co-op** mod. It expands the functionality of Seamless Co-op without modifying it, enabling matchmaking with random players for cooperative play.
@@ -162,4 +168,4 @@ As a result, this type of connection is trash, and connecting to mod users is us
 You should compile exclusively using Microsoft Build Tools x64 Native.
 When using other compilers, the injector fails to inject the DLL into the process, and the DLL itself crashes when interacting with Steam API methods.
 I am not very familiar with C++, so I don't understand the reasons why.
-[also don't forget to download the SteamworksAPI](https://partner.steamgames.com/downloads/steamworks_sdk_163.zip "direct link to download SteamworksSDK")
+[also don't forget to download the SteamworksSDK](https://partner.steamgames.com/downloads/steamworks_sdk_163.zip "direct link to download SteamworksSDK")
