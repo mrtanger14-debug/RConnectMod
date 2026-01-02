@@ -1,10 +1,10 @@
 # Elden Ring: Nightreign — Seamless Co-op Extension
 
 ---
-## language
 
-[RU](Описание)
-[EN](Description)
+## Language
+- [RU](#описание)
+- [EN](#description)
 
 ---
 
