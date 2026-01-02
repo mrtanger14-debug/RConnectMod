@@ -12,7 +12,7 @@
 
 > [!IMPORTANT]
 > **Важная информация:**
-> На данный момент поддерживаются: версия игры 1.03.2 и версия Seamless-Coop 1.0.9.
+> На данный момент поддерживаются: версия игры **1.03.3** и версия Seamless-Coop **1.1.0**.
 
 ---
 
@@ -97,7 +97,7 @@ This extension is designed for **Elden Ring: Nightreign** using the **Seamless C
 
 > [!IMPORTANT]
 > **Important Information:**
-> Currently supported: Game version **1.03.2** and Seamless Co-op version **1.0.9**.
+> Currently supported: Game version **1.03.3** and Seamless Co-op version **1.1.0**.
 
 ---
 
