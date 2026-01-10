@@ -19,17 +19,17 @@ class DeltaLobbyFinder : public AbstractLobbyFinder {
                 data.push_back(SteamMatchmaking()->GetLobbyByIndex(index));
             }
             if (!lobbies.empty()) {
-                std::vector<CSteamID> newLobbies;
                 for (const auto& currentLobby : data) {
                     auto it = std::find(lobbies.begin(), lobbies.end(), currentLobby);
                     if (it == lobbies.end()) {
-                        newLobbies.push_back(currentLobby);
+                        founded.push_back(currentLobby);
                     }
                 }
-                std::cout << "[DeltaLobbyFinder] Found new lobbies: " << newLobbies.size() << "." << std::endl;
-                if (!newLobbies.empty()) {
-                    int randomIndex = rand() % newLobbies.size();
-                    CSteamID target = newLobbies[randomIndex];
+                std::cout << "[DeltaLobbyFinder] Found new lobbies: " << founded.size() << "." << std::endl;
+                if (!founded.empty()) {
+                    int randomIndex = rand() % founded.size();
+                    CSteamID target = founded[randomIndex];
+                    founded.erase(founded.begin() + randomIndex);
                     ShellExecuteA(nullptr, "open", ("steam://joinlobby/" + std::to_string(appId) + "/" + std::to_string(target.ConvertToUint64())).c_str(), nullptr, nullptr, SW_SHOWNORMAL);
                     std::cout << "[DeltaLobbyFinder] Selected index: " << randomIndex << ". lobby: " << target.ConvertToUint64() << std::endl;
                 }
@@ -41,4 +41,5 @@ class DeltaLobbyFinder : public AbstractLobbyFinder {
 
         uint32_t appId;
         std::vector<CSteamID> lobbies;
+        std::vector<CSteamID> founded;
 };
