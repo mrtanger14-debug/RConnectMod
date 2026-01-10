@@ -15,7 +15,9 @@ public:
         m_CallbackLobbyChatUpdate(this, &LobbyHandler::OnLobbyChatUpdate),
         m_CallbackLobbyKicked(this, &LobbyHandler::OnLobbyKicked),
         m_CallbackLobbyMatchList(this, &LobbyHandler::OnLobbyMatchList),
-        m_CallbackLobbyGameCreated(this, &LobbyHandler::OnLobbyGameCreated)
+        m_CallbackLobbyGameCreated(this, &LobbyHandler::OnLobbyGameCreated),
+        m_CallbackP2PSessionRequest(this, &LobbyHandler::OnP2PSessionRequest),
+        m_CallbackP2PSessionConnectFail(this, &LobbyHandler::OnP2PSessionConnectFail)
     {}
 
     void LobbyProcessorUpdate() {
@@ -71,6 +73,14 @@ private:
         if (this->processor) this->processor->OnLobbyGameCreated(p);
     }
 
+    void OnP2PSessionRequest(P2PSessionRequest_t* p) {
+        if (this->processor) this->processor->OnP2PSessionRequest(p);
+    }
+
+    void OnP2PSessionConnectFail(P2PSessionConnectFail_t* p) {
+        if (this->processor) this->processor->OnP2PSessionConnectFail(p);
+    }
+
     CCallback<LobbyHandler, LobbyCreated_t> m_CallbackLobbyCreated;
     CCallback<LobbyHandler, LobbyEnter_t> m_CallbackLobbyEnter;
     CCallback<LobbyHandler, LobbyDataUpdate_t> m_CallbackLobbyDataUpdate;
@@ -79,4 +89,6 @@ private:
     CCallback<LobbyHandler, LobbyKicked_t> m_CallbackLobbyKicked;
     CCallback<LobbyHandler, LobbyMatchList_t> m_CallbackLobbyMatchList;
     CCallback<LobbyHandler, LobbyGameCreated_t> m_CallbackLobbyGameCreated;
+    CCallback<LobbyHandler, P2PSessionRequest_t> m_CallbackP2PSessionRequest;
+    CCallback<LobbyHandler, P2PSessionConnectFail_t> m_CallbackP2PSessionConnectFail;
 };

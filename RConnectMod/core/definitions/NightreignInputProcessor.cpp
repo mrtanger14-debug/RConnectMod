@@ -41,7 +41,7 @@ public:
             );
         } else {
             delete data;
-            std::cout << "[PLUGIN] Failed to initialize Nightreign signatures!" << std::endl;
+            std::cout << "[NightreignInputProcessor] Failed to initialize Nightreign signatures!" << std::endl;
         }
         return nullptr;
     }

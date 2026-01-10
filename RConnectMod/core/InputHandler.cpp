@@ -26,7 +26,7 @@ public:
             delete inpytProcessor;
             return lobbyProcessor;
         }
-        std::cout << "[PLUGIN] unknown command: " << cmd << std::endl;
+        std::cout << "[InputHandler] unknown command: " << cmd << std::endl;
         return nullptr;
     }
 };

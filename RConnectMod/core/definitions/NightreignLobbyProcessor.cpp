@@ -5,12 +5,16 @@
 #include <steam_api.h>
 #include "DataLobbyProcessor.cpp"
 #include "NightreignProgramData.cpp"
+#include "RandomLobbyFinder.cpp"
+#include "DeltaLobbyFinder.cpp"
+#include "../abstraction/AbstractLobbyFinder.h"
 
 class NightreignLobbyProcessor : public DataLobbyProcessor {
 
 public:
 
     ~NightreignLobbyProcessor() {
+        delete finder;
         delete data;
     }
 
@@ -22,11 +26,12 @@ public:
         const std::string& lobby_key_value,
         const std::string& lobby_version_value
     ) : data(data), appId(appId), lobby_key(lobby_key), lobby_version_key(lobby_version_key), lobby_key_value(lobby_key_value), lobby_version_value(lobby_version_value) {
-        std::cout << "[PLUGIN] NightreignLobbyProcessor initialized success." << std::endl;
+        std::cout << "[NightreignLobbyProcessor] Initialized success." << std::endl;
     }
 
     void ProcessorUpdate(float deltaTime) override { 
         DataLobbyProcessor::ProcessorUpdate(deltaTime);
+        if (finder) finder->Update(deltaTime);
         data->Update();
         HandleAnimation();
     }
@@ -37,7 +42,7 @@ public:
         CSteamID user(p->m_ulSteamIDUserChanged);
         EChatMemberStateChange change = (EChatMemberStateChange)p->m_rgfChatMemberStateChange;
         if (change & k_EChatMemberStateChangeEntered) {
-            std::cout << "[PLUGIN] new user: https://steamcommunity.com/profiles/" << user.ConvertToUint64() << ". in lobby: steam://joinlobby/" << appId << "/" << lobbyID.ConvertToUint64() << std::endl;
+            std::cout << "[NightreignLobbyProcessor] new user: https://steamcommunity.com/profiles/" << user.ConvertToUint64() << ". in lobby: steam://joinlobby/" << appId << "/" << lobbyID.ConvertToUint64() << std::endl;
         }
     }
 
@@ -61,30 +66,16 @@ public:
     void OnLobbyMatchList(LobbyMatchList_t* p) override {
         DefaultLobbyProcessor::OnLobbyMatchList(p);
         if (p->m_nLobbiesMatching == 0) {
-            std::cout << "[PLUGIN] No lobbies found in the match list." << std::endl;
+            std::cout << "[NightreignLobbyProcessor] No lobbies found in the match list." << std::endl;
             return;
         }
         if (currentLobby || lastLobby) {
-            std::cout << "[PLUGIN] Already in a lobby, not joining a new one." << std::endl;
+            std::cout << "[NightreignLobbyProcessor] Already in a lobby, not joining a new one." << std::endl;
             return;
         }
-        int randomIndex = rand() % p->m_nLobbiesMatching;
-        CSteamID selectedLobby = SteamMatchmaking()->GetLobbyByIndex(randomIndex);
-        if (selectedLobby.IsValid()) {
-            if (SteamMatchmaking()->GetLobbyMemberLimit(selectedLobby) <= SteamMatchmaking()->GetNumLobbyMembers(selectedLobby)) {
-                std::cout << "[PLUGIN] cant join to: " << selectedLobby.ConvertToUint64() << " lobby is full." << std::endl;
-                return;
-            }
-            ShellExecuteA(nullptr, "open", ("steam://joinlobby/" + std::to_string(appId) + "/" + std::to_string(selectedLobby.ConvertToUint64())).c_str(), nullptr, nullptr, SW_SHOWNORMAL);
-            std::cout << "[PLUGIN] Attempting to join Lobby ID: " << selectedLobby.ConvertToUint64() << ". random index is: " << randomIndex << "." << std::endl;
+        if (finder) {
+            finder->LobbyMatchListCount(p->m_nLobbiesMatching);
         }
-    }
-
-    void SendLobbyRequest() {
-        if (connectType == CONNECT_TO_MOD_USERS) SteamMatchmaking()->AddRequestLobbyListStringFilter(JOIN_PARAM_KEY, "1", k_ELobbyComparisonEqual);
-        SteamMatchmaking()->AddRequestLobbyListStringFilter(lobby_key.c_str(), lobby_key_value.c_str(), k_ELobbyComparisonEqual);
-        SteamMatchmaking()->AddRequestLobbyListStringFilter(lobby_version_key.c_str(), lobby_version_value.c_str(), k_ELobbyComparisonEqual);
-        SteamMatchmaking()->RequestLobbyList();
     }
 
 private:
@@ -92,7 +83,8 @@ private:
     static constexpr const char* JOIN_PARAM_KEY = "joinParam";
     static unsigned char const CONNECT_DISABLE = 0;
     static unsigned char const CONNECT_TO_RANDOMS = 1;
-    static unsigned char const CONNECT_TO_MOD_USERS = 2;
+    static unsigned char const CONNECT_TO_NEW_RANDOMS = 2;
+    static unsigned char const CONNECT_TO_MOD_USERS = 3;
 
     uint32_t appId;
     std::string lobby_key;
@@ -100,6 +92,7 @@ private:
     std::string lobby_key_value;
     std::string lobby_version_value;
 
+    AbstractLobbyFinder* finder = nullptr;
     NightreignProgramData* data = nullptr;
 
     unsigned char connectType = CONNECT_DISABLE;
@@ -110,9 +103,9 @@ private:
             UpdateRaidStatus(currentLobby) || UpdateRaidStatus(lastLobby);
             return;
         }
-        if (connectType && data->InHub()) {
-            SendLobbyRequest();
-            std::cout << "[PLUGIN] Sending new lobby request..." << std::endl;
+        if (connectType && data->InHub() && finder) {
+            finder->LobbyRequest();
+            std::cout << "[NightreignLobbyProcessor] Sending new lobby request..." << std::endl;
         }
     }
 
@@ -124,12 +117,12 @@ private:
             if (lobby->parameters.count(raid_key)) {
                 if (lobby->parameters[raid_key] != desired_status) {
                     SteamMatchmaking()->SetLobbyData(lobby->lobby, raid_key.c_str(), desired_status.c_str());
-                    std::cout << "[PLUGIN] Updating lobby: " << lobby->lobby.ConvertToUint64() << ". " << raid_key << " from " << lobby->parameters[raid_key] << " to " << desired_status << std::endl;
+                    std::cout << "[NightreignLobbyProcessor] Updating lobby: " << lobby->lobby.ConvertToUint64() << ". " << raid_key << " from " << lobby->parameters[raid_key] << " to " << desired_status << std::endl;
                     return true;
                 }
             } else {
                 SteamMatchmaking()->SetLobbyData(lobby->lobby, raid_key.c_str(), desired_status.c_str());
-                std::cout << "[PLUGIN] Setting initial data for lobby: " << lobby->lobby.ConvertToUint64() << ". " << raid_key << " to " << desired_status << std::endl;
+                std::cout << "[NightreignLobbyProcessor] Setting initial data for lobby: " << lobby->lobby.ConvertToUint64() << ". " << raid_key << " to " << desired_status << std::endl;
                 return true;
             }
         }
@@ -137,14 +130,39 @@ private:
     }
 
     void HandleAnimation() {
+        AbstractLobbyFinder* previousFinder = finder;
         unsigned char previousType = connectType;
         switch (data->GetCurrentAnimation()) {
             case 80200: connectType = CONNECT_TO_RANDOMS; break;
+            case 80060: connectType = CONNECT_TO_NEW_RANDOMS; break;
             case 80730: connectType = CONNECT_TO_MOD_USERS; break;
             case 80240: connectType = CONNECT_DISABLE; break;
         }
         if (previousType != connectType) {
-            std::cout << "[PLUGIN] Connect type changed to: " << static_cast<int>(connectType) << std::endl;
+            switch (connectType) {
+                case CONNECT_TO_RANDOMS:
+                    finder = new RandomLobbyFinder(appId, {
+                        { lobby_key, lobby_key_value },
+                        { lobby_version_key, lobby_version_value }
+                    }); break;
+                case CONNECT_TO_NEW_RANDOMS:
+                    finder = new DeltaLobbyFinder(appId, {
+                        { lobby_key, lobby_key_value },
+                        { lobby_version_key, lobby_version_value }
+                    }); break;
+                case CONNECT_TO_MOD_USERS:
+                    finder = new RandomLobbyFinder(appId, {
+                        { lobby_key, lobby_key_value },
+                        { lobby_version_key, lobby_version_value },
+                        { std::string(JOIN_PARAM_KEY), "1" }
+                    }); break;
+                case CONNECT_DISABLE: finder = nullptr; break;
+            }
+            std::cout << "[NightreignLobbyProcessor] Connect type changed to: " << static_cast<int>(connectType) << std::endl;
+        }
+        if (previousFinder && previousFinder != finder) {
+            delete previousFinder;
+            std::cout << "[NightreignLobbyProcessor] PreviousFinder been deleted" << std::endl;
         }
     }
 };

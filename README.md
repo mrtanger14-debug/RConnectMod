@@ -28,8 +28,14 @@
 Переключение функций осуществляется путем активации жестикуляций.
 
 * **«Указать вперёд»** — поиск среди обычных игроков.
+* **«Тёплое приветствие»** — поиск недавно созданных сессий.
 * **«Щелчок пальцами»** — поиск среди пользователей расширения.
 * **«Постой»** — отключение поиска.
+
+**Эффективность режимов поиска**
+* **«Указать вперёд»** — [2/10] (Полный рандом.)
+* **«Тёплое приветствие»** — [5/10] (Показывает хорошие результаты при большом количестве игроков.)
+* **«Щелчок пальцами»** — [8/10] сейчас [0/10] (Гарантированное подключение, но не работает без пользователей этого мода.)
 
 **Примечание:** Жесты рекомендуется добавить в избранное. Переключение режимов возможно везде, но поиск работает только в хаб-локации.
 
@@ -111,8 +117,14 @@ This extension is designed for **Elden Ring: Nightreign** using the **Seamless C
 Functions are toggled by performing specific in-game gestures.
 
 * **"Point Forward"** — Search for standard Seamless Co-op players.
+* **"Warm Welcome"** — searching for recently created sessions.
 * **"Finger Snap"** — Search for extension users.
 * **"Wait"** — Disable search.
+
+**Search Modes Efficiency**
+* **"Point Forward"** — [2/10] (Full random.)
+* **"Warm Welcome"** — [5/10] (Shows good results with a large number of players.)
+* **"Snap of Fingers"** — [8/10] now [0/10] (Guaranteed connection, but does not work without users of this mod.)
 
 **Note:** It is recommended to add these gestures to your favorites. While modes can be toggled anywhere, the search process only functions within the hub location.
 

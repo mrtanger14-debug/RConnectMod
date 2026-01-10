@@ -12,4 +12,6 @@ class AbstractLobbyProcessor {
         virtual void OnLobbyKicked(LobbyKicked_t* p) = 0;
         virtual void OnLobbyMatchList(LobbyMatchList_t* p) = 0;
         virtual void OnLobbyGameCreated(LobbyGameCreated_t* p) = 0;
+        virtual void OnP2PSessionRequest(P2PSessionRequest_t* p) = 0;
+        virtual void OnP2PSessionConnectFail(P2PSessionConnectFail_t* p) = 0;
 };
