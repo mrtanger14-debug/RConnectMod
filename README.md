@@ -20,7 +20,7 @@
 
 > [!IMPORTANT]
 > **Важная информация:**
-> На данный момент поддерживаются: версия игры **1.03.4** и версия Seamless-Coop **1.1.0**.
+> На данный момент поддерживаются: версия игры **1.03.4** и версия Seamless-Coop **1.1.1**.
 
 ---
 
@@ -109,7 +109,7 @@ This extension is designed for **Elden Ring: Nightreign** using the **Seamless C
 
 > [!IMPORTANT]
 > **Important Information:**
-> Currently supported: Game version **1.03.4** and Seamless Co-op version **1.1.0**.
+> Currently supported: Game version **1.03.4** and Seamless Co-op version **1.1.1**.
 
 ---
 
@@ -182,3 +182,4 @@ When using other compilers, the injector fails to inject the DLL into the proces
 I am not very familiar with C++, so I don't understand the reasons why.
 
 [also don't forget to download the SteamworksSDK](https://partner.steamgames.com/downloads/steamworks_sdk_163.zip "direct link to download SteamworksSDK")
+
