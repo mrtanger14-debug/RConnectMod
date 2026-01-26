@@ -97,6 +97,12 @@
 
 ---
 
+## Примечание
+Касательно пиратской версии игры:
+если в папке с игрой находятся файлы OnlineFix.ini или SteamFix.ini, то для входа в лобби используется ID приложения, указанный в строке [Main].fakeAppId.
+
+---
+
 ## Description
 This extension is designed for **Elden Ring: Nightreign** using the **Seamless Co-op** mod. It expands the functionality of Seamless Co-op without modifying it, enabling matchmaking with random players for cooperative play.
 
@@ -180,6 +186,10 @@ As a result, this type of connection is trash, and connecting to mod users is us
 You should compile exclusively using Microsoft Build Tools x64 Native.
 When using other compilers, the injector fails to inject the DLL into the process, and the DLL itself crashes when interacting with Steam API methods.
 I am not very familiar with C++, so I don't understand the reasons why.
-
 [also don't forget to download the SteamworksSDK](https://partner.steamgames.com/downloads/steamworks_sdk_163.zip "direct link to download SteamworksSDK")
 
+---
+
+## Note
+Regarding the pirated version of the game:
+if the game folder contains OnlineFix.ini or SteamFix.ini files, the application ID specified in [Main].fakeAppId is used to enter the lobby.
