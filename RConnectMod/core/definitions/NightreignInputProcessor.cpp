@@ -26,7 +26,7 @@ public:
         if (!mod.load("SeamlessCoop/RConnectMod_settings.ini")) return nullptr;
         NightreignProgramData* data = new NightreignProgramData();
         if (data->Init()) {
-            uint32_t appId = steamFix.load("SteamFix.ini") ? std::stoul(steamFix.get("Main", "FakeAppId", "0")) : SteamUtils()->GetAppID();
+            uint32_t appId = (steamFix.load("SteamFix.ini") || steamFix.load("OnlineFix.ini")) ? std::stoul(steamFix.get("Main", "FakeAppId", "0")) : SteamUtils()->GetAppID();
             std::string lobby_key = mod.get("FILTERS", "lobby_key", "nrsc_lobby_type");
             std::string lobby_version_key = mod.get("FILTERS", "lobby_version_key", "nrsc_lobby_version");
             std::string lobby_key_value = mod.get("FILTERS", "lobby_key_value", "nrsc_ynx3_seamless_master_lobby");
