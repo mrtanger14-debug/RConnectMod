@@ -18,8 +18,6 @@ public:
         input_data = data;
     }
 
-public:
-
     AbstractLobbyProcessor* ProcessInput() override {
         INIReader mod;
         INIReader steamFix;
@@ -46,3 +44,4 @@ public:
         return nullptr;
     }
 };
+
