@@ -8,13 +8,19 @@
 
 ---
 
+## ASS!!!
+Начиная с версии Seamless Co-op 1.1.2 разработчица(сука эдакая) зарезала в моде фишку, благодаря которой можно было подключаться к любым пользователям. Теперь мод по умолчанию создаёт лобби только для друзей.
+Это означает, что игры с рандомами больше не будет. Возможна игра только с пользователями, которые используют данной мод. Поскольку таких пользователей почти нет, мод можно считать покойником. ☠️☠️☠️
+
+---
+
 ## Описание:
 Расширение предназначено для игры Elden Ring: Nightreign с модом Seamless Co-op. Оно расширяет функциональность Seamless Co-op но не модифицирует его, реализуя подбор случайных игроков для совместной игры.
 
 ---
 
 ## Возможности:
-* **Подключение к обычным игрокам Seamless-Coop**, которые не используют данное расширение (удачное подключение не гарантировано; одна попытка занимает 5–30 секунд; поиск случайный).
+* **Подключение к обычным игрокам Seamless-Coop**, ~~которые не используют данное расширение (удачное подключение не гарантировано; одна попытка занимает 5–30 секунд; поиск случайный).~~
 * **Подключение к сессиям пользователей расширения** (быстрый поиск, гарантированное подключение при наличии активных пользователей).
 * **Создание сессий** для ожидания подключений пользователей расширения.
 
@@ -27,14 +33,14 @@
 ## Управление:
 Переключение функций осуществляется путем активации жестикуляций.
 
-* **«Указать вперёд»** — поиск среди обычных игроков.
-* **«Тёплое приветствие»** — поиск недавно созданных сессий.
+* **«Указать вперёд»** — ~~поиск среди обычных игроков.~~
+* **«Тёплое приветствие»** — ~~поиск недавно созданных сессий.~~
 * **«Щелчок пальцами»** — поиск среди пользователей расширения.
 * **«Постой»** — отключение поиска.
 
 **Эффективность режимов поиска**
-* **«Указать вперёд»** — [2/10] (Полный рандом.)
-* **«Тёплое приветствие»** — [5/10] (Показывает хорошие результаты при большом количестве игроков.)
+* **«Указать вперёд»** — ~~[2/10] (Полный рандом.)~~
+* **«Тёплое приветствие»** — ~~[5/10] (Показывает хорошие результаты при большом количестве игроков.)~~
 * **«Щелчок пальцами»** — [8/10] сейчас [0/10] (Гарантированное подключение, но не работает без пользователей этого мода.)
 
 **Примечание:** Жесты рекомендуется добавить в избранное. Переключение режимов возможно везде, но поиск работает только в хаб-локации.
@@ -103,6 +109,12 @@
 
 ---
 
+## ASS!!!
+Starting with Seamless Co-op 1.1.2, the developer (that damn bitch) cut a feature in the mod that allowed connecting to any players. Now the mod creates lobbies for friends only by default.
+This means there will be no more games with randoms. You can only play with users who use this mod, and since there are almost none, the mod can be considered dead. ☠️☠️☠️
+
+---
+
 ## Description
 This extension is designed for **Elden Ring: Nightreign** using the **Seamless Co-op** mod. It expands the functionality of Seamless Co-op without modifying it, enabling matchmaking with random players for cooperative play.
 
@@ -122,14 +134,14 @@ This extension is designed for **Elden Ring: Nightreign** using the **Seamless C
 ## Controls
 Functions are toggled by performing specific in-game gestures.
 
-* **"Point Forward"** — Search for standard Seamless Co-op players.
-* **"Warm Welcome"** — searching for recently created sessions.
+* **"Point Forward"** — ~~Search for standard Seamless Co-op players.~~
+* **"Warm Welcome"** — ~~searching for recently created sessions.~~
 * **"Finger Snap"** — Search for extension users.
 * **"Wait"** — Disable search.
 
 **Search Modes Efficiency**
-* **"Point Forward"** — [2/10] (Full random.)
-* **"Warm Welcome"** — [5/10] (Shows good results with a large number of players.)
+* **"Point Forward"** — ~~[2/10] (Full random.)~~
+* **"Warm Welcome"** — ~~[5/10] (Shows good results with a large number of players.)~~
 * **"Snap of Fingers"** — [8/10] now [0/10] (Guaranteed connection, but does not work without users of this mod.)
 
 **Note:** It is recommended to add these gestures to your favorites. While modes can be toggled anywhere, the search process only functions within the hub location.
@@ -193,3 +205,4 @@ I am not very familiar with C++, so I don't understand the reasons why.
 ## Note
 Regarding the pirated version of the game:
 if the game folder contains OnlineFix.ini or SteamFix.ini files, the application ID specified in [Main].fakeAppId is used to enter the lobby.
+
