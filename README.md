@@ -8,7 +8,7 @@
 
 ---
 
-## ASS!!!
+## ЖОПА!!!
 Начиная с версии Seamless Co-op 1.1.2 разработчица(сука эдакая) зарезала в моде фишку, благодаря которой можно было подключаться к любым пользователям. Теперь мод по умолчанию создаёт лобби только для друзей.
 Это означает, что игры с рандомами больше не будет. Возможна игра только с пользователями, которые используют данной мод. Поскольку таких пользователей почти нет, мод можно считать покойником. ☠️☠️☠️
 
@@ -205,4 +205,5 @@ I am not very familiar with C++, so I don't understand the reasons why.
 ## Note
 Regarding the pirated version of the game:
 if the game folder contains OnlineFix.ini or SteamFix.ini files, the application ID specified in [Main].fakeAppId is used to enter the lobby.
+
 
