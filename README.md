@@ -8,9 +8,9 @@
 
 ---
 
-## ЖОПА!!!
-Начиная с версии Seamless Co-op 1.1.2 разработчица(сука эдакая) зарезала в моде фишку, благодаря которой можно было подключаться к любым пользователям. Теперь мод по умолчанию создаёт лобби только для друзей.
-Это означает, что игры с рандомами больше не будет. Возможна игра только с пользователями, которые используют данный мод. Поскольку таких пользователей почти нет, мод можно считать покойником. ☠️☠️☠️
+> [!IMPORTANT]
+> Начиная с версии Seamless Co-op 1.1.2 разработчица(сука эдакая) зарезала в моде фишку, благодаря которой можно было подключаться к любым пользователям. Теперь мод по умолчанию создаёт лобби только для друзей.
+> Это означает, что игры с рандомами больше не будет. Возможна игра только с пользователями, которые используют данный мод. Поскольку таких пользователей почти нет, мод можно считать покойником. ☠️☠️☠️
 
 ---
 
@@ -109,9 +109,9 @@
 
 ---
 
-## ASS!!!
-Starting with Seamless Co-op 1.1.2, the developer (that damn bitch) cut a feature in the mod that allowed connecting to any players. Now the mod creates lobbies for friends only by default.
-This means there will be no more games with randoms. You can only play with users who use this mod, and since there are almost none, the mod can be considered dead. ☠️☠️☠️
+> [!IMPORTANT]
+> Starting with Seamless Co-op 1.1.2, the developer (that damn bitch) cut a feature in the mod that allowed connecting to any players. Now the mod creates lobbies for friends only by default.
+> This means there will be no more games with randoms. You can only play with users who use this mod, and since there are almost none, the mod can be considered dead. ☠️☠️☠️
 
 ---
 
@@ -205,6 +205,7 @@ I am not very familiar with C++, so I don't understand the reasons why.
 ## Note
 Regarding the pirated version of the game:
 if the game folder contains OnlineFix.ini or SteamFix.ini files, the application ID specified in [Main].fakeAppId is used to enter the lobby.
+
 
 
 
