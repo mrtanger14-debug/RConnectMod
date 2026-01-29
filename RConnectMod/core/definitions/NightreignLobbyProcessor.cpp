@@ -49,6 +49,9 @@ public:
     void OnLobbyEnter(LobbyEnter_t* p) override {
         DataLobbyProcessor::OnLobbyEnter(p);
         CSteamID user = SteamUser()->GetSteamID();
+        if (user == currentLobby->owner) {
+            SteamMatchmaking()->SetLobbyType(currentLobby->lobby, k_ELobbyTypePublic);
+        }
         if (currentLobby && currentLobby->owner != user) {
             std::time_t currentTime = std::time(nullptr);
             std::cout << "--- Lobby Info ---" << std::endl;
@@ -165,4 +168,5 @@ private:
             std::cout << "[NightreignLobbyProcessor] PreviousFinder been deleted" << std::endl;
         }
     }
+
 };
