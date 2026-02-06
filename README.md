@@ -40,7 +40,7 @@
 
 **Эффективность режимов поиска**
 * **«Указать вперёд»** — ~~[2/10] (Полный рандом.)~~
-* **«Тёплое приветствие»** — ~~[5/10] (Показывает хорошие результаты при большом количестве игроков.)~~
+* **«Тёплое приветствие»** — ~~[7/10] (Показывает хорошие результаты при большом количестве игроков.)~~
 * **«Щелчок пальцами»** — [8/10] сейчас [0/10] (Гарантированное подключение, но не работает без пользователей этого мода.)
 
 **Примечание:** Жесты рекомендуется добавить в избранное. Переключение режимов возможно везде, но поиск работает только в хаб-локации.
@@ -141,7 +141,7 @@ Functions are toggled by performing specific in-game gestures.
 
 **Search Modes Efficiency**
 * **"Point Forward"** — ~~[2/10] (Full random.)~~
-* **"Warm Welcome"** — ~~[5/10] (Shows good results with a large number of players.)~~
+* **"Warm Welcome"** — ~~[7/10] (Shows good results with a large number of players.)~~
 * **"Snap of Fingers"** — [8/10] now [0/10] (Guaranteed connection, but does not work without users of this mod.)
 
 **Note:** It is recommended to add these gestures to your favorites. While modes can be toggled anywhere, the search process only functions within the hub location.
@@ -205,6 +205,7 @@ I am not very familiar with C++, so I don't understand the reasons why.
 ## Note
 Regarding the pirated version of the game:
 if the game folder contains OnlineFix.ini or SteamFix.ini files, the application ID specified in [Main].fakeAppId is used to enter the lobby.
+
 
 
 
