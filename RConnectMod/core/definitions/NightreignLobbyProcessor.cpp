@@ -1,54 +1,43 @@
 #pragma once
 #include <ctime>
 #include <string>
-#include <iostream>
-#include <steam_api.h>
 #include "DataLobbyProcessor.cpp"
 #include "NightreignProgramData.cpp"
-#include "RandomLobbyFinder.cpp"
-#include "DeltaLobbyFinder.cpp"
-#include "../abstraction/AbstractLobbyFinder.h"
+#include "DefaultLobbySubProcessor.cpp"
+// ehehehehehehe
+#include "RandomLobbySubProcessor.cpp"
+#include "../abstraction/AbstractLobbySubProcessor.h"
 
 class NightreignLobbyProcessor : public DataLobbyProcessor {
 
 public:
 
     ~NightreignLobbyProcessor() {
-        delete finder;
         delete data;
+        delete subprocessor;
     }
 
-    NightreignLobbyProcessor(
-        NightreignProgramData* data,
-        uint32_t appId,
-        const std::string& lobby_key,
-        const std::string& lobby_version_key,
-        const std::string& lobby_key_value,
-        const std::string& lobby_version_value
-    ) : data(data), appId(appId), lobby_key(lobby_key), lobby_version_key(lobby_version_key), lobby_key_value(lobby_key_value), lobby_version_value(lobby_version_value) {
+    NightreignLobbyProcessor(NightreignProgramData* data) : data(data) {
+        subprocessor = new DefaultLobbySubProcessor();
         std::cout << "[NightreignLobbyProcessor] Initialized success." << std::endl;
     }
 
-    void ProcessorUpdate(float deltaTime) override { 
+    void ProcessorUpdate(float deltaTime) override {
+        if (!subprocessor->ProcessorUpdate(deltaTime)) return; 
         DataLobbyProcessor::ProcessorUpdate(deltaTime);
-        if (finder) finder->Update(deltaTime);
         data->Update();
         HandleAnimation();
     }
 
-    void OnLobbyChatUpdate(LobbyChatUpdate_t* p) override {
-        DataLobbyProcessor::OnLobbyChatUpdate(p);
-        CSteamID lobbyID(p->m_ulSteamIDLobby);
-        CSteamID user(p->m_ulSteamIDUserChanged);
-        EChatMemberStateChange change = (EChatMemberStateChange)p->m_rgfChatMemberStateChange;
-        if (change & k_EChatMemberStateChangeEntered) {
-            std::cout << "[NightreignLobbyProcessor] new user: https://steamcommunity.com/profiles/" << user.ConvertToUint64() << ". in lobby: steam://joinlobby/" << appId << "/" << lobbyID.ConvertToUint64() << std::endl;
-        }
+    void OnLobbyCreated(LobbyCreated_t* p) override {
+        if (!subprocessor->OnLobbyCreated(p)) return; 
+        DataLobbyProcessor::OnLobbyCreated(p);
     }
 
     void OnLobbyEnter(LobbyEnter_t* p) override {
+        if (!subprocessor->OnLobbyEnter(p)) return; 
         DataLobbyProcessor::OnLobbyEnter(p);
-        CSteamID user = SteamUser()->GetSteamID();
+        CSteamID user(SteamConfig::instance().userId);
         if (user == currentLobby->owner) {
             SteamMatchmaking()->SetLobbyType(currentLobby->lobby, k_ELobbyTypePublic);
         }
@@ -56,7 +45,7 @@ public:
             std::time_t currentTime = std::time(nullptr);
             std::cout << "--- Lobby Info ---" << std::endl;
             std::cout << "Timestamp: " << std::ctime(&currentTime);
-            std::cout << "Lobby ID: steam://joinlobby/" << appId << "/" << currentLobby->lobby.ConvertToUint64() << "/" << std::endl;
+            std::cout << "Lobby ID: steam://joinlobby/" << SteamConfig::instance().appId << "/" << currentLobby->lobby.ConvertToUint64() << "/" << std::endl;
             std::cout << "Owner ID: https://steamcommunity.com/profiles/" << currentLobby->owner.ConvertToUint64() << "/" << std::endl;
             std::cout << "Members (" << currentLobby->members.size() << "):" << std::endl;
             for (const auto& memberID : currentLobby->members) {
@@ -66,37 +55,55 @@ public:
         }
     }
 
+    void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t* p) override {
+        if (!subprocessor->OnGameLobbyJoinRequested(p)) return;
+        DefaultLobbyProcessor::OnGameLobbyJoinRequested(p);
+    }
+
+    void OnLobbyDataUpdate(LobbyDataUpdate_t* p) override {
+        if (!subprocessor->OnLobbyDataUpdate(p)) return;
+        DataLobbyProcessor::OnLobbyDataUpdate(p);
+    }
+
+    void OnLobbyChatUpdate(LobbyChatUpdate_t* p) override {
+        if (!subprocessor->OnLobbyChatUpdate(p)) return;
+        DataLobbyProcessor::OnLobbyChatUpdate(p);
+    }
+
+    void OnLobbyKicked(LobbyKicked_t* p) override {
+        if (!subprocessor->OnLobbyKicked(p)) return;
+        DataLobbyProcessor::OnLobbyKicked(p);
+    }
+
     void OnLobbyMatchList(LobbyMatchList_t* p) override {
+        if (!subprocessor->OnLobbyMatchList(p)) return;
         DefaultLobbyProcessor::OnLobbyMatchList(p);
-        if (p->m_nLobbiesMatching == 0) {
-            std::cout << "[NightreignLobbyProcessor] No lobbies found in the match list." << std::endl;
-            return;
-        }
-        if (currentLobby || lastLobby) {
-            std::cout << "[NightreignLobbyProcessor] Already in a lobby, not joining a new one." << std::endl;
-            return;
-        }
-        if (finder) {
-            finder->LobbyMatchListCount(p->m_nLobbiesMatching);
-        }
+    }
+
+    void OnLobbyGameCreated(LobbyGameCreated_t* p) override {
+        if (!subprocessor->OnLobbyGameCreated(p)) return;
+        DefaultLobbyProcessor::OnLobbyGameCreated(p);
+    }
+
+    void OnP2PSessionRequest(P2PSessionRequest_t* p) override {
+        if (!subprocessor->OnP2PSessionRequest(p)) return;
+        DefaultLobbyProcessor::OnP2PSessionRequest(p);
+    }
+
+    void OnP2PSessionConnectFail(P2PSessionConnectFail_t* p) override {
+        if (!subprocessor->OnP2PSessionConnectFail(p)) return;
+        DefaultLobbyProcessor::OnP2PSessionConnectFail(p);
     }
 
 private:
 
-    static constexpr const char* JOIN_PARAM_KEY = "joinParam";
     static unsigned char const CONNECT_DISABLE = 0;
     static unsigned char const CONNECT_TO_RANDOMS = 1;
     static unsigned char const CONNECT_TO_NEW_RANDOMS = 2;
     static unsigned char const CONNECT_TO_MOD_USERS = 3;
 
-    uint32_t appId;
-    std::string lobby_key;
-    std::string lobby_version_key;
-    std::string lobby_key_value;
-    std::string lobby_version_value;
-
-    AbstractLobbyFinder* finder = nullptr;
     NightreignProgramData* data = nullptr;
+    AbstractLobbySubProcessor* subprocessor = nullptr;
 
     unsigned char connectType = CONNECT_DISABLE;
 
@@ -106,17 +113,16 @@ private:
             UpdateRaidStatus(currentLobby) || UpdateRaidStatus(lastLobby);
             return;
         }
-        if (connectType && data->InHub() && finder) {
-            finder->LobbyRequest();
-            std::cout << "[NightreignLobbyProcessor] Sending new lobby request..." << std::endl;
+        if (data->InHub()) {
+            subprocessor->Event();
         }
     }
 
     bool UpdateRaidStatus(Lobby* lobby) {
-        if (!lobby || lobby->owner != SteamUser()->GetSteamID()) return false;
-        if (lobby->parameters.count(lobby_key)) {
+        if (!lobby || lobby->owner != CSteamID(SteamConfig::instance().userId)) return false;
+        if (lobby->parameters.count(SteamConfig::instance().index)) {
             const std::string desired_status = data->InHub() ? "1" : "0";
-            const std::string raid_key = JOIN_PARAM_KEY;
+            const std::string raid_key = SteamConfig::instance().modIndex;
             if (lobby->parameters.count(raid_key)) {
                 if (lobby->parameters[raid_key] != desired_status) {
                     SteamMatchmaking()->SetLobbyData(lobby->lobby, raid_key.c_str(), desired_status.c_str());
@@ -133,40 +139,30 @@ private:
     }
 
     void HandleAnimation() {
-        AbstractLobbyFinder* previousFinder = finder;
-        unsigned char previousType = connectType;
+        AbstractLobbySubProcessor* previousSubprocessor = subprocessor;
+        unsigned char previousConnectType = connectType;
         switch (data->GetCurrentAnimation()) {
-            case 80200: connectType = CONNECT_TO_RANDOMS; break;
-            case 80060: connectType = CONNECT_TO_NEW_RANDOMS; break;
-            case 80730: connectType = CONNECT_TO_MOD_USERS; break;
             case 80240: connectType = CONNECT_DISABLE; break;
+            case 80200: connectType = CONNECT_TO_RANDOMS; break;
+            //case 80060: connectType = CONNECT_TO_NEW_RANDOMS; break;
+            case 80730: connectType = CONNECT_TO_MOD_USERS; break;
         }
-        if (previousType != connectType) {
+        if (previousConnectType != connectType) {
             switch (connectType) {
-                case CONNECT_TO_RANDOMS:
-                    finder = new RandomLobbyFinder(appId, {
-                        { lobby_key, lobby_key_value },
-                        { lobby_version_key, lobby_version_value }
-                    }); break;
-                case CONNECT_TO_NEW_RANDOMS:
-                    finder = new DeltaLobbyFinder(appId, {
-                        { lobby_key, lobby_key_value },
-                        { lobby_version_key, lobby_version_value }
-                    }); break;
+                case CONNECT_DISABLE: subprocessor = new DefaultLobbySubProcessor(); break;
+                case CONNECT_TO_RANDOMS: subprocessor = new RandomLobbySubProcessor(SteamConfig::instance().filters); break;
+                case CONNECT_TO_NEW_RANDOMS: break; // eheheheheheheh
                 case CONNECT_TO_MOD_USERS:
-                    finder = new RandomLobbyFinder(appId, {
-                        { lobby_key, lobby_key_value },
-                        { lobby_version_key, lobby_version_value },
-                        { std::string(JOIN_PARAM_KEY), "1" }
-                    }); break;
-                case CONNECT_DISABLE: finder = nullptr; break;
+                    std::map<std::string, std::string> data = SteamConfig::instance().filters;
+                    data[SteamConfig::instance().modIndex] = "1";
+                    subprocessor = new RandomLobbySubProcessor(data);
+                    break;
             }
             std::cout << "[NightreignLobbyProcessor] Connect type changed to: " << static_cast<int>(connectType) << std::endl;
         }
-        if (previousFinder && previousFinder != finder) {
-            delete previousFinder;
-            std::cout << "[NightreignLobbyProcessor] PreviousFinder been deleted" << std::endl;
+        if (previousSubprocessor != subprocessor) {
+            delete previousSubprocessor;
+            std::cout << "[NightreignLobbyProcessor] PreviousSubprocessor been deleted" << std::endl;
         }
     }
-
 };

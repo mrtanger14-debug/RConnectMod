@@ -36,7 +36,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 
             while (WaitForSingleObject(hProcess, 0) == WAIT_TIMEOUT) {
                 lobbyHandler.LobbyProcessorUpdate();
-                std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 10));
+                std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 60));
             }
         }).detach();
         break;

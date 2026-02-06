@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
 #include <algorithm>
-#include <steam_api.h>
 #include "DefaultLobbyProcessor.cpp"
 #include "../data/Lobby.cpp"
+#include "../utils/SteamConfig.cpp"
 
 class DataLobbyProcessor : public DefaultLobbyProcessor {
 
@@ -29,7 +29,7 @@ class DataLobbyProcessor : public DefaultLobbyProcessor {
             DefaultLobbyProcessor::OnLobbyCreated(p);
             if (p->m_eResult == k_EResultOK) {
                 CSteamID lobby(p->m_ulSteamIDLobby);
-                CSteamID user = SteamUser()->GetSteamID();
+                CSteamID user(SteamConfig::instance().userId);
                 Lobby* newLobby = new Lobby(user, lobby, { user }, {});
                 delete lastLobby;
                 lastLobby = currentLobby;
@@ -91,7 +91,7 @@ class DataLobbyProcessor : public DefaultLobbyProcessor {
                     k_EChatMemberStateChangeBanned |
                     k_EChatMemberStateChangeDisconnected
                 )) {
-                        if (user == SteamUser()->GetSteamID()) {
+                        if (user == CSteamID(SteamConfig::instance().userId)) {
                             delete lobby;
                             lobby = nullptr;
                             return;

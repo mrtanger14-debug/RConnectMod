@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include <steam_api.h>
 #include "../abstraction/AbstractLobbyProcessor.h"
 
 class DefaultLobbyProcessor : public AbstractLobbyProcessor {
@@ -21,16 +20,16 @@ class DefaultLobbyProcessor : public AbstractLobbyProcessor {
             std::cout << "[DefaultLobbyProcessor] lobby Entered. ID: " << lobby.ConvertToUint64() << ", Result: " << p->m_EChatRoomEnterResponse << std::endl;
         }
 
-        void OnLobbyDataUpdate(LobbyDataUpdate_t* p) override {
-            CSteamID lobby(p->m_ulSteamIDLobby);
-            CSteamID member(p->m_ulSteamIDMember);
-            std::cout << "[DefaultLobbyProcessor] lobby Data Updated. Lobby ID: " << lobby.ConvertToUint64() << ", Success: " << p->m_bSuccess << ", Member ID: " << member.ConvertToUint64() << std::endl;
-        }
-
         void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t* p) override {
             CSteamID lobby(p->m_steamIDLobby);
             CSteamID friendID(p->m_steamIDFriend);
             std::cout << "[DefaultLobbyProcessor] lobby Join Requested. From Friend: " << friendID.ConvertToUint64() << ", Lobby ID: " << lobby.ConvertToUint64() << ".\n";
+        }
+
+        void OnLobbyDataUpdate(LobbyDataUpdate_t* p) override {
+            CSteamID lobby(p->m_ulSteamIDLobby);
+            CSteamID member(p->m_ulSteamIDMember);
+            std::cout << "[DefaultLobbyProcessor] lobby Data Updated. Lobby ID: " << lobby.ConvertToUint64() << ", Success: " << p->m_bSuccess << ", Member ID: " << member.ConvertToUint64() << std::endl;
         }
 
         void OnLobbyChatUpdate(LobbyChatUpdate_t* p) override {

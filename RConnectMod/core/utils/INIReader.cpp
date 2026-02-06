@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <unordered_map>
+#include <map>
 
 class INIReader {
 
@@ -46,8 +46,14 @@ public:
         return defaultValue;
     }
 
+    const std::map<std::string, std::string>& section(const std::string& section) const {
+        static const std::map<std::string, std::string> empty;
+        auto it = data.find(section);
+        return it != data.end() ? it->second : empty;
+    }
+
 private:
 
-    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> data;
+    std::map<std::string, std::map<std::string, std::string>> data;
 
 };
