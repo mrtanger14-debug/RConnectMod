@@ -6,12 +6,13 @@
 #pragma comment(lib, "Shell32.lib")
 
 bool RESULT = TRUE;
+uint16 TPS = 1000 / 60;
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
     switch (ul_reason_for_call) {
     case DLL_PROCESS_ATTACH:
         std::thread([]() {
-            std::this_thread::sleep_for(std::chrono::milliseconds(2500));
+            while (GetModuleHandleA(NULL) == NULL) std::this_thread::sleep_for(std::chrono::milliseconds(TPS));
 
             INIReader settings;
             
@@ -36,7 +37,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 
             while (WaitForSingleObject(hProcess, 0) == WAIT_TIMEOUT) {
                 lobbyHandler.LobbyProcessorUpdate();
-                std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 60));
+                std::this_thread::sleep_for(std::chrono::milliseconds(TPS));
             }
         }).detach();
         break;
