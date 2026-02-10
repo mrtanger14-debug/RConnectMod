@@ -12,7 +12,12 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
     switch (ul_reason_for_call) {
     case DLL_PROCESS_ATTACH:
         std::thread([]() {
-            while (GetModuleHandleA(NULL) == NULL) std::this_thread::sleep_for(std::chrono::milliseconds(TPS));
+            HANDLE hProcess = GetCurrentProcess();
+
+            while (GetModuleHandleA(NULL) == NULL) {
+                if (WaitForSingleObject(hProcess, 0) != WAIT_TIMEOUT) return;
+                std::this_thread::sleep_for(std::chrono::milliseconds(TPS));
+            }
 
             INIReader settings;
             
@@ -29,7 +34,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
                 std::ios::sync_with_stdio(false);
             }
 
-            HANDLE hProcess = GetCurrentProcess();
             static LobbyHandler lobbyHandler;
             static InputHandler inputHandler;
 
