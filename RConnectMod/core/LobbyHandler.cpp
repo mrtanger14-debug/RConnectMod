@@ -1,5 +1,6 @@
+#include <mutex>
+#include <deque>
 #include <chrono>
-#include <vector>
 #include <iostream>
 #include <steam_api.h>
 #include "abstraction/AbstractLobbyProcessor.h"
@@ -7,7 +8,7 @@
 class LobbyHandler
 {
 public:
-    
+
     LobbyHandler() :
         m_CallbackLobbyCreated(this, &LobbyHandler::OnLobbyCreated),
         m_CallbackLobbyEnter(this, &LobbyHandler::OnLobbyEnter),
@@ -28,16 +29,16 @@ public:
         float dt = std::chrono::duration<float>(now - last).count();
         last = now;
         if (this->processor) {
-            ProcessData(lobbyCreatedEvents, &AbstractLobbyProcessor::OnLobbyCreated);
-            ProcessData(lobbyEnterEvents, &AbstractLobbyProcessor::OnLobbyEnter);
-            ProcessData(gameLobbyJoinRequestedEvents, &AbstractLobbyProcessor::OnGameLobbyJoinRequested);
-            ProcessData(lobbyDataUpdateEvents, &AbstractLobbyProcessor::OnLobbyDataUpdate);
-            ProcessData(lobbyChatUpdateEvents, &AbstractLobbyProcessor::OnLobbyChatUpdate);
-            ProcessData(lobbyKickedEvents, &AbstractLobbyProcessor::OnLobbyKicked);
-            ProcessData(lobbyMatchListEvents, &AbstractLobbyProcessor::OnLobbyMatchList);
-            ProcessData(lobbyGameCreatedEvents, &AbstractLobbyProcessor::OnLobbyGameCreated);
-            ProcessData(p2pSessionRequestEvents, &AbstractLobbyProcessor::OnP2PSessionRequest);
-            ProcessData(p2pSessionConnectFailEvents, &AbstractLobbyProcessor::OnP2PSessionConnectFail);
+            ProcessData(lobbyCreatedEvents, lobbyCreatedMutex, &AbstractLobbyProcessor::OnLobbyCreated);
+            ProcessData(lobbyEnterEvents, lobbyEnterMutex, &AbstractLobbyProcessor::OnLobbyEnter);
+            ProcessData(gameLobbyJoinRequestedEvents, gameLobbyJoinRequestedMutex, &AbstractLobbyProcessor::OnGameLobbyJoinRequested);
+            ProcessData(lobbyDataUpdateEvents, lobbyDataUpdateMutex, &AbstractLobbyProcessor::OnLobbyDataUpdate);
+            ProcessData(lobbyChatUpdateEvents, lobbyChatUpdateMutex, &AbstractLobbyProcessor::OnLobbyChatUpdate);
+            ProcessData(lobbyKickedEvents, lobbyKickedMutex, &AbstractLobbyProcessor::OnLobbyKicked);
+            ProcessData(lobbyMatchListEvents, lobbyMatchListMutex, &AbstractLobbyProcessor::OnLobbyMatchList);
+            ProcessData(lobbyGameCreatedEvents, lobbyGameCreatedMutex, &AbstractLobbyProcessor::OnLobbyGameCreated);
+            ProcessData(p2pSessionRequestEvents, p2pSessionRequestMutex, &AbstractLobbyProcessor::OnP2PSessionRequest);
+            ProcessData(p2pSessionConnectFailEvents, p2pSessionConnectFailMutex, &AbstractLobbyProcessor::OnP2PSessionConnectFail);
             this->processor->ProcessorUpdate(dt);
         }
     }
@@ -54,64 +55,64 @@ private:
 
     AbstractLobbyProcessor* processor = nullptr;
 
-    std::vector<LobbyCreated_t> lobbyCreatedEvents;
-    std::vector<LobbyEnter_t> lobbyEnterEvents;
-    std::vector<GameLobbyJoinRequested_t> gameLobbyJoinRequestedEvents;
-    std::vector<LobbyDataUpdate_t> lobbyDataUpdateEvents;
-    std::vector<LobbyChatUpdate_t> lobbyChatUpdateEvents;
-    std::vector<LobbyKicked_t> lobbyKickedEvents;
-    std::vector<LobbyMatchList_t> lobbyMatchListEvents;
-    std::vector<LobbyGameCreated_t> lobbyGameCreatedEvents;
-    std::vector<P2PSessionRequest_t> p2pSessionRequestEvents;
-    std::vector<P2PSessionConnectFail_t> p2pSessionConnectFailEvents;
+    template<typename T>
+    using SafeQueue = std::deque<T>;
 
-    template<typename T, typename Func>
-    void ProcessData(std::vector<T>& events, Func handler) {
-        while (!events.empty()) {
-            T data = events.front();
-            events.erase(events.begin());
-            (this->processor->*handler)(&data);
+    template<typename T>
+    void ProcessData(SafeQueue<T>& queue, std::mutex& mtx, void(AbstractLobbyProcessor::*handler)(T*)) {
+        SafeQueue<T> local;
+        {
+            std::lock_guard<std::mutex> lock(mtx);
+            local.swap(queue);
         }
+        for (auto& e : local) (this->processor->*handler)(&e);
     }
 
-    void OnLobbyCreated(LobbyCreated_t* p) {
-        lobbyCreatedEvents.push_back(*p);
-    }
+    SafeQueue<LobbyCreated_t> lobbyCreatedEvents;
+    std::mutex lobbyCreatedMutex;
 
-    void OnLobbyEnter(LobbyEnter_t* p) {
-        lobbyEnterEvents.push_back(*p);
-    }
+    SafeQueue<LobbyEnter_t> lobbyEnterEvents;
+    std::mutex lobbyEnterMutex;
 
-    void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t* p) {
-        gameLobbyJoinRequestedEvents.push_back(*p);
-    }
+    SafeQueue<GameLobbyJoinRequested_t> gameLobbyJoinRequestedEvents;
+    std::mutex gameLobbyJoinRequestedMutex;
 
-    void OnLobbyDataUpdate(LobbyDataUpdate_t* p) {
-        lobbyDataUpdateEvents.push_back(*p);
-    }
+    SafeQueue<LobbyDataUpdate_t> lobbyDataUpdateEvents;
+    std::mutex lobbyDataUpdateMutex;
 
-    void OnLobbyChatUpdate(LobbyChatUpdate_t* p) {
-        lobbyChatUpdateEvents.push_back(*p);
-    }
+    SafeQueue<LobbyChatUpdate_t> lobbyChatUpdateEvents;
+    std::mutex lobbyChatUpdateMutex;
 
-    void OnLobbyKicked(LobbyKicked_t* p) {
-        lobbyKickedEvents.push_back(*p);
-    }
+    SafeQueue<LobbyKicked_t> lobbyKickedEvents;
+    std::mutex lobbyKickedMutex;
 
-    void OnLobbyMatchList(LobbyMatchList_t* p) {
-        lobbyMatchListEvents.push_back(*p);
-    }
+    SafeQueue<LobbyMatchList_t> lobbyMatchListEvents;
+    std::mutex lobbyMatchListMutex;
 
-    void OnLobbyGameCreated(LobbyGameCreated_t* p) {
-        lobbyGameCreatedEvents.push_back(*p);
-    }
+    SafeQueue<LobbyGameCreated_t> lobbyGameCreatedEvents;
+    std::mutex lobbyGameCreatedMutex;
 
-    void OnP2PSessionRequest(P2PSessionRequest_t* p) {
-        p2pSessionRequestEvents.push_back(*p);
-    }
+    SafeQueue<P2PSessionRequest_t> p2pSessionRequestEvents;
+    std::mutex p2pSessionRequestMutex;
 
-    void OnP2PSessionConnectFail(P2PSessionConnectFail_t* p) {
-        p2pSessionConnectFailEvents.push_back(*p);
+    SafeQueue<P2PSessionConnectFail_t> p2pSessionConnectFailEvents;
+    std::mutex p2pSessionConnectFailMutex;
+
+    void OnLobbyCreated(LobbyCreated_t* p) { AddEvent(lobbyCreatedEvents, lobbyCreatedMutex, *p); }
+    void OnLobbyEnter(LobbyEnter_t* p) { AddEvent(lobbyEnterEvents, lobbyEnterMutex, *p); }
+    void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t* p) { AddEvent(gameLobbyJoinRequestedEvents, gameLobbyJoinRequestedMutex, *p); }
+    void OnLobbyDataUpdate(LobbyDataUpdate_t* p) { AddEvent(lobbyDataUpdateEvents, lobbyDataUpdateMutex, *p); }
+    void OnLobbyChatUpdate(LobbyChatUpdate_t* p) { AddEvent(lobbyChatUpdateEvents, lobbyChatUpdateMutex, *p); }
+    void OnLobbyKicked(LobbyKicked_t* p) { AddEvent(lobbyKickedEvents, lobbyKickedMutex, *p); }
+    void OnLobbyMatchList(LobbyMatchList_t* p) { AddEvent(lobbyMatchListEvents, lobbyMatchListMutex, *p); }
+    void OnLobbyGameCreated(LobbyGameCreated_t* p) { AddEvent(lobbyGameCreatedEvents, lobbyGameCreatedMutex, *p); }
+    void OnP2PSessionRequest(P2PSessionRequest_t* p) { AddEvent(p2pSessionRequestEvents, p2pSessionRequestMutex, *p); }
+    void OnP2PSessionConnectFail(P2PSessionConnectFail_t* p) { AddEvent(p2pSessionConnectFailEvents, p2pSessionConnectFailMutex, *p); }
+
+    template<typename T>
+    void AddEvent(SafeQueue<T>& queue, std::mutex& mtx, const T& e) {
+        std::lock_guard<std::mutex> lock(mtx);
+        queue.push_back(e);
     }
 
     CCallback<LobbyHandler, LobbyCreated_t> m_CallbackLobbyCreated;
