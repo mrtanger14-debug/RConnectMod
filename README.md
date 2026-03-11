@@ -8,12 +8,6 @@
 
 ---
 
-> [!IMPORTANT]
-> Начиная с версии Seamless Co-op 1.1.2 разработчица(сука эдакая) зарезала в моде фишку, благодаря которой можно было подключаться к любым пользователям. Теперь мод по умолчанию создаёт лобби только для друзей.
-> Это означает, что игры с рандомами больше не будет. Возможна игра только с пользователями, которые используют данный мод. Поскольку таких пользователей почти нет, мод можно считать покойником. ☠️☠️☠️
-
----
-
 ## Описание:
 Расширение предназначено для игры Elden Ring: Nightreign с модом Seamless Co-op. Оно расширяет функциональность Seamless Co-op но не модифицирует его, реализуя подбор случайных игроков для совместной игры.
 
@@ -33,14 +27,12 @@
 ## Управление:
 Переключение функций осуществляется путем активации жестикуляций.
 
-* **«Указать вперёд»** — ~~поиск среди обычных игроков.~~
-* **«Тёплое приветствие»** — ~~поиск недавно созданных сессий.~~
+* **«Тёплое приветствие»** — поиск недавно созданных сессий.
 * **«Щелчок пальцами»** — поиск среди пользователей расширения.
 * **«Постой»** — отключение поиска.
 
 **Эффективность режимов поиска**
-* **«Указать вперёд»** — ~~[2/10] (Полный рандом.)~~
-* **«Тёплое приветствие»** — ~~[7/10] (Показывает хорошие результаты при большом количестве игроков.)~~
+* **«Тёплое приветствие»** — [7/10] (Показывает хорошие результаты при большом количестве игроков.)
 * **«Щелчок пальцами»** — [8/10] сейчас [0/10] (Гарантированное подключение, но не работает без пользователей этого мода.)
 
 **Примечание:** Жесты рекомендуется добавить в избранное. Переключение режимов возможно везде, но поиск работает только в хаб-локации.
@@ -59,7 +51,6 @@
 
 ## Ограничения:
 * Отсутствует графический интерфейс (управление через анимации).
-* Поиск обычных игроков может быть долгим и не надежным.
 * Для поиска пользователей расширения необходимо наличие созданных ими активных сессий.
 
 ---
@@ -86,15 +77,6 @@
 
 ---
 
-## Комментарий автора:
-На самом деле это та ещё залупа.
-Коннект к обычным типам — вообще шляпа.
-Симлес кооп не делает никаких пометок: в рейде парни или в хабе, из-за чего приходится коннектиться на авось.
-Мало того, если вам повезло найти сессию, где парни собираются в катку, эти критины могут просто испугаться и ливнуть из игры — достаточно бесячее событие.
-Таким образом выходит, что такой вид коннекта — шляпа, а коннект к пользователям мода бесполезен по причине отсутствия этих самых пользователей. Чтобы это работало, нужно, чтобы эти пользователи хотя бы были. Мод, кста, ориентирован на пиратов в основном, потому как лицензионщикам такое вообще не нужно.
-
----
-
 ## Компиляция:
 Компилировать следует исключительно через Microsoft Build Tools x64 Native.
 При использовании других компиляторов инжектор не внедряет DLL в процесс, а сама DLL библиотека крашится при взаимодействии с методами Steam API.
@@ -106,12 +88,6 @@
 ## Примечание
 Касательно пиратской версии игры:
 если в папке с игрой находятся файлы OnlineFix.ini или SteamFix.ini, то для входа в лобби используется ID приложения, указанный в строке [Main].fakeAppId.
-
----
-
-> [!IMPORTANT]
-> Starting with Seamless Co-op 1.1.2, the developer (that damn bitch) cut a feature in the mod that allowed connecting to any players. Now the mod creates lobbies for friends only by default.
-> This means there will be no more games with randoms. You can only play with users who use this mod, and since there are almost none, the mod can be considered dead. ☠️☠️☠️
 
 ---
 
@@ -134,14 +110,12 @@ This extension is designed for **Elden Ring: Nightreign** using the **Seamless C
 ## Controls
 Functions are toggled by performing specific in-game gestures.
 
-* **"Point Forward"** — ~~Search for standard Seamless Co-op players.~~
-* **"Warm Welcome"** — ~~searching for recently created sessions.~~
+* **"Warm Welcome"** — searching for recently created sessions.
 * **"Finger Snap"** — Search for extension users.
 * **"Wait"** — Disable search.
 
 **Search Modes Efficiency**
-* **"Point Forward"** — ~~[2/10] (Full random.)~~
-* **"Warm Welcome"** — ~~[7/10] (Shows good results with a large number of players.)~~
+* **"Warm Welcome"** — [7/10] (Shows good results with a large number of players.)
 * **"Snap of Fingers"** — [8/10] now [0/10] (Guaranteed connection, but does not work without users of this mod.)
 
 **Note:** It is recommended to add these gestures to your favorites. While modes can be toggled anywhere, the search process only functions within the hub location.
@@ -160,7 +134,6 @@ Use standard Seamless Co-op methods. Go to the Roundtable Hold menu, navigate to
 
 ## Limitations
 * No Graphical User Interface (controlled via animations).
-* Searching for standard players may be slow and unreliable.
 * Finding extension users requires active sessions created by other users.
 
 ---
@@ -185,13 +158,6 @@ Delete the following files from the root folder:
 * `SeamlessCoop/RConnectMod.dll`
 * `SeamlessCoop/RConnectMod_settings.ini`
 
-## Author comment:
-In fact, this is total bullshit.
-Connecting to random players is complete trash.
-Seamless co-op doesn’t make any markings showing whether players are in a raid or in the hub, so you have to connect blindly.
-On top of that, even if you’re lucky enough to find a session where players are getting ready to play, those idiots can just get scared and leave the game — a pretty annoying situation.
-As a result, this type of connection is trash, and connecting to mod users is useless due to the lack of those very users. For this to work, those users would at least need to exist. The mod, by the way, is mainly aimed at pirates, since licensed players don’t need this at all.
-
 ---
 
 ## Compilation:
@@ -205,9 +171,3 @@ I am not very familiar with C++, so I don't understand the reasons why.
 ## Note
 Regarding the pirated version of the game:
 if the game folder contains OnlineFix.ini or SteamFix.ini files, the application ID specified in [Main].fakeAppId is used to enter the lobby.
-
-
-
-
-
-
