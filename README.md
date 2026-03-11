@@ -14,7 +14,7 @@
 ---
 
 ## Возможности:
-* **Подключение к обычным игрокам Seamless-Coop**, ~~которые не используют данное расширение (удачное подключение не гарантировано; одна попытка занимает 5–30 секунд; поиск случайный).~~
+* **Подключение к обычным игрокам Seamless-Coop**, которые не используют данное расширение (удачное подключение не гарантировано; одна попытка занимает 5–30 секунд; поиск случайный).
 * **Подключение к сессиям пользователей расширения** (быстрый поиск, гарантированное подключение при наличии активных пользователей).
 * **Создание сессий** для ожидания подключений пользователей расширения.
 
@@ -97,7 +97,7 @@ This extension is designed for **Elden Ring: Nightreign** using the **Seamless C
 ---
 
 ## Features
-* **Connect to standard Seamless Co-op players** ~~who do not have this extension installed (connection is not guaranteed; each attempt takes 5–30 seconds; search is randomized)~~.
+* **Connect to standard Seamless Co-op players** who do not have this extension installed (connection is not guaranteed; each attempt takes 5–30 seconds; search is randomized).
 * **Connect to extension users** (fast search, guaranteed connection if active users are available).
 * **Host sessions** to wait for connections from other extension users.
 
@@ -171,3 +171,4 @@ I am not very familiar with C++, so I don't understand the reasons why.
 ## Note
 Regarding the pirated version of the game:
 if the game folder contains OnlineFix.ini or SteamFix.ini files, the application ID specified in [Main].fakeAppId is used to enter the lobby.
+
